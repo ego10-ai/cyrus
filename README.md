@@ -2,6 +2,7 @@
 Cyrus is a project that allows the use of affordable LoRa radios for long-range, off-grid communication where reliable infrastructure is absent. It is entirely community-driven. It uses the LoRa protocol, which is license-free and widely available in most areas without needing any additional licenses or certifications, unlike traditional HAM radio.
 For location awareness and asset tracking, Cyrus features an integrated u-blox GNSS receiver.
 The hardware is designed for indefinite deployment in remote environments. It utilizes a dedicated Maximum Power Point Tracking (MPPT) charge controller to efficiently harvest energy from a 6V solar panel.
+<img width="1872" height="2272" alt="Remove background project" src="https://github.com/user-attachments/assets/9b82a06c-5981-46c4-8d6d-db9bbfa54162" />
 
 ## Hardware specifications
 - Microcontroller: ESPRESSIF ESP32-S3-WROOM-1-N8R8
