@@ -15,8 +15,8 @@ Cyrus is a project that allows the use of affordable LoRa radios for long-range,
 - Display: HS242L03B2C01 OLED display.
 - 
 ## Design Details
-Software Used: EasyEDA
-Component Size: Primarily 0603 SMD for a balance between compact size and hand-solderability.
+- Software Used: EasyEDA
+- Component Size: Primarily 0603 SMD for a balance between compact size and hand-solderability.
 
 ## Schemetic
 ![](https://image-pro.easyeda.com/pullimages/8fa98248aa934d5c965c4f3c3752a967.webp)
