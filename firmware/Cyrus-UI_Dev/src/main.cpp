@@ -9,21 +9,35 @@
 // decleeartioon for the tasks
 // 2.GLOBAL VARIABLES
 //-----------------------------------------
+SystemState currentState = STATE_BOOT_LOGO;  // initial state of the system BOOT state
 
+OneButton btnUp(PIN_BTN_UP, true);           // active low button, 
+
+OneButton btnDown(PIN_BTN_DOWN, true):       // active down button, for the other fuction like BACK i wiil use the BOOT fuction lter on
+
+OneButton btnSelect(PIN_BTN_SEL, true);      // active slection button 
 
 
 
 //3. task declaration
 
-void taskUI(void *pvParameters);
-
-void taskRadioGPS(void *pvParameters);
+void taskUI(void *pvParameters);        //
+void handleClickUp();                   //
+void handleClickDown();                 //
+void handleClickSelect();               //
+void taskRadioGPS(void *pvParameters);  //
 
 
 // 4.SETUP FUNCTION (Runs once on boot)
 void setup() {
   Serial.begin(115200);
   delay(2000); 
+
+  // Button event attachments for the physical selections
+  btnUp.attachClick(handleClickUp);
+  btnDown.attachClick(handleClickDown);
+  btnSelect.attachClick(handleClickSelect);
+
   
 
 
@@ -66,6 +80,14 @@ void taskUI(void *pvParameters) {
     // everything in this 'for' loop runs forever on core 1
   for(;;) {
 
+    btnUp.tick();     // check the state of the UP button
+    btnDown.tick();   // check the state of the DOWN button
+    btnSelect.tick(); // check the state of the SELECT button
+
+
+    switch (currentState)
+    {
+
     // FMS logic, and OLED drawing 
     case STATE_BOOT_LOGO:
       Serial.println("Display: showing Boot Logo..............");
@@ -73,18 +95,55 @@ void taskUI(void *pvParameters) {
       currentState = STATE_DASHBOARD; // changfe the state !
       break;
 
+    case STATE_DASHBOARD:
+      Serial.println("Display: Rendaring Dashboard..............");
+      // Drawinhg code 
+
+      break;
+
+    case STATE_MENU_LORA:
+      Serial.println("Display: Rendaring LoRa Menu..............");
+      // Menu Drawinhg code
+      break;
+    default:
+      break;  // five "*****" star do nothing 
+    }
+
+  
+    // this will delay the task for 50 ms so it doesn't hog the CPU
     vTaskDelay(pdMS_TO_TICKS(50)); // Run at ~20hz
   }
   }
 
+
 void taskRadioGPS(void *pvParameters) {
     for(;;) {
+
+        // LoRa communication handling (sending and receiving)
         // GPS serial reading and parsing
         vTaskDelay(pdMS_TO_TICKS(10)); // run at 100hz
 
     }
+
+
 }
 
+// ------- Button Handlers callbacks functions -----------
 
+void handleClickUp() {
+  Serial.println("Acion: UP button clicked");
+  // for now , just a test 
+  currentState = STATE_DASHBOARD; // when the UP button is clicked, we go to the DASHBOARD
+}
 
+void handleClickDown() {
+  Serial.println("Acion: DOWN button clicked");
+  // for now , just a test (dowm lol )
+  currentState = STATE_MENU_LORA; // when the DOWN button is clicked, we go to the LORA MENU
+}
 
+void handleClickSelect() {
+  Serial.println("Action: SELECT button clicked");
+    // for now , just a test (select)
+    currentState = STATE_MAP_LOGO;
+}
