@@ -4,6 +4,7 @@
 #include <hal_pins.h>
 #include <UIManager.h>
 #include <OneButton.h>
+#include "PowerManager.h"
 
 
 // decleeartioon for the tasks
@@ -17,7 +18,7 @@ OneButton btnDown(PIN_BTN_DOWN, true):       // active down button, for the othe
 
 OneButton btnSelect(PIN_BTN_SEL, true);      // active slection button 
 
-
+PowerManager power; 
 
 //3. task declaration
 
@@ -33,10 +34,26 @@ void setup() {
   Serial.begin(115200);
   delay(2000); 
 
+  Serial.println("Cyrus Core Compute is ALIVE!");
+
+  // initialize the I2C bus and IOExpander  
+  power.init();
+
+  // HArdware reset the oled screeen so it's ready to receive commands
+
+  powerr.resetOLED();
+
+  // wakeup the  radios! yeahhhhh
+
+  power.enableLoRa(true);
+  power.enableGPS(true);
+
   // Button event attachments for the physical selections
   btnUp.attachClick(handleClickUp);
   btnDown.attachClick(handleClickDown);
   btnSelect.attachClick(handleClickSelect);
+
+  // ini
 
   
 
